@@ -1,61 +1,47 @@
 var LinkedList = function() {
   var list = {};
-  list.head = {};
-  list.tail = {};
+  list.head = null;
+  list.tail = null;
 
   list.addToTail = function(val) {
-    //first check to see if you've got nothing, then instantiate 
-    if ((_.isEmpty(list.head)) && (_.isEmpty(list.tail))) {
-      list.head.value = val;
-      list.head.next = {};
-      list.tail.value = val;
-      list.tail.next = null;
-    } else {
-      //define tail with new val 
-      list.tail.value = val;
-      list.tail.next = null;
-      //fix the chain's tail with new values
-      list.findEnd.next = val;
-      list.findEnd.next = null;
+  
+    var nodey = new Node(val);
+    
+    //is there even a head yet??
+    if (!list.head) {
+      list.head = nodey;
+    } 
+    //...and is there a tail yet?
+    if (!list.tail) {
+      list.tail = nodey;
+      //if so, no need to continue further
+      return;
     }
-
+    //redirect the old tail next while we still have access
+    list.tail.next = nodey;
+    //now the tail property can point to new tail
+    list.tail = nodey;
+    
   };
 
-  list.findNode = function(searchValue) {
-    var currentNode = list.head;
-    //returns node with intended searchValue
-    while(currentNode) {
-      if (currentNode.value === searchValue) {
-        return currentNode;
-      }
-      currentNode = currentNode.next; 
-    }
-    //else return null if not found
-    return null;
-  };
-
-  list.findEnd = function() {
-    var currentNode = list.head;
-    //returns node with intended searchValue
-    while(currentNode) {
-      if (currentNode.next === null) {
-        //the end should have null as its next value, so return that node son!
-        return currentNode;
-      }
-      currentNode = currentNode.next; 
-    }
-    //else return, just in case
-    return null;
-  };
 
   list.removeHead = function() {
     var temp = list.head.value;
-    list.head.next.head = list.head.next.value;
-    delete list.head;
+    list.head = list.head.next;
     return temp;
   };
 
   list.contains = function(target) {
+    var currentNode = list.head;
+    
+    while(currentNode) {
+      if (currentNode.value === target) {
+        return true;
+      }
+      currentNode = currentNode.next; 
+    }
+    //else return false if not found
+    return false;
   };
 
   return list;
@@ -73,3 +59,4 @@ var Node = function(value) {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+
