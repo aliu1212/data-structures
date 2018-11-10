@@ -55,13 +55,14 @@ describe('graph', function() {
   });
 
   it('should execute a callback on each node in the graph', function() {
-    var connectToFive = function(item) {
-      graph.addEdge(item, 5);
-    };
+
     graph.addNode(5);
     graph.addNode(2);
     graph.addNode(1);
     graph.addNode(3);
+    var connectToFive = function(item) {
+      graph.addEdge(item, 5);
+    };
     graph.forEachNode(connectToFive);
     expect(graph.hasEdge(2, 5)).to.equal(true);
     expect(graph.hasEdge(1, 5)).to.equal(true);
