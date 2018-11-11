@@ -5,9 +5,6 @@ var HashTable = function() {
   this._storage = LimitedArray(this._limit);
 };
 
-//   limitedArray.set(3, 'hi');
-//   limitedArray.get(3); // returns 'hi'
-
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   if (this._storage.get(index)) {
@@ -25,6 +22,26 @@ HashTable.prototype.insert = function(k, v) {
   } else {
     let inputs = [[k,v]];
     this._storage.set(index, inputs);
+  }
+
+  //double in size as needed
+  let count = 0;
+  for (let k = 0; k < this._limit; k++) {
+    if (this._storage.get(k)) {
+      count++;
+    }
+  }
+  // console.log("limit ", this._limit);
+  // console.log("75% ", 0.75 * this._limit);
+  // console.log("count", count)
+  // console.log(count >= 0.75 * this._limit);
+  if (count >= (0.75 * this._limit)) {
+    let temp = this._storage;
+    this._limit *= 2;
+    this._storage = LimitedArray(this._limit);
+    for (let v = 0; v < temp.length; v++) {
+      this._storage.set(v, temp[v]);
+    }
   }
 
 };
