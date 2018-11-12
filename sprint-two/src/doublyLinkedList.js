@@ -5,55 +5,58 @@ var dLinkedList = function() {
 
   dlist.addToTail = function(val) {
   
-    // var nodey = new Node(val);
+    var dubNodey = new Node(val);
     
-    // //is there even a head yet??
-    // if (!list.head) {
-    //   list.head = nodey;
-    // } 
-    // //...and is there a tail yet?
-    // if (!list.tail) {
-    //   list.tail = nodey;
-    //   //if so, no need to continue further
-    //   return;
-    // }
-    // //redirect the old tail next while we still have access
-    // list.tail.next = nodey;
-    // //now the tail property can point to new tail
-    // list.tail = nodey;
+    //is there a head? 
+    if (!dlist.head) {
+      dlist.head = dubNodey;
+    } 
+    //is there a tail yet?
+    if (!dlist.tail) {
+      dlist.tail = dubNodey;
+      //if so, no need to continue further
+      return;
+    }
+
+    dlist.tail.next = dubNodey;
+    dubNodey.previous = dlist.tail;
+    dlist.tail = dubNodey;
     
   };
 
 
   dlist.removeHead = function() {
-    // var temp = list.head.value;
-    // list.head = list.head.next;
-    // return temp;
+    let temp = dlist.head.value;
+    dlist.head = dlist.head.next;
+    dlist.head.previous = null;
+    return temp;
   };
 
   dlist.contains = function(target) {
-  //   var currentNode = list.head;
+    //let's try going from the TAIL now that it is a doubly linked list..
+    let currentNode = dlist.tail;
     
-  //   while(currentNode) {
-  //     if (currentNode.value === target) {
-  //       return true;
-  //     }
-  //     currentNode = currentNode.next; 
-  //   }
-  //   //else return false if not found
-  //   return false;
+    while(currentNode) {
+      if (currentNode.value === target) {
+        return true;
+      }
+      currentNode = currentNode.previous; 
+    }
+
+    return false;
   };
 
-  return list;
+  return dlist;
 };
 
 var dNode = function(value) {
-  // var node = {};
+  let node = {};
 
-  // node.value = value;
-  // node.next = null;
+  node.previous = null;
+  node.value = value;
+  node.next = null;
 
-  // return node;
+  return node;
 };
 
 /*
